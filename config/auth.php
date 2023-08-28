@@ -14,9 +14,16 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
+
+    'api' => [
+        'driver' => 'jwt',
+        'provider' => 'users',
+        'hash' => false,
+    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -36,8 +43,8 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
+        'api' => [
+            'driver' => 'jwt',
             'provider' => 'users',
         ],
     ],
@@ -98,6 +105,7 @@ return [
             'throttle' => 60,
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JwtAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
