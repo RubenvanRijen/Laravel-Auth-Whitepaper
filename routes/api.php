@@ -28,7 +28,10 @@ Route::group([
     Route::post('/logout', [JwtAuthController::class, 'logout']);
     Route::post('/refresh', [JwtAuthController::class, 'refresh']);
     Route::get('/user-profile', [JwtAuthController::class, 'getCurrentUser']);
-    Route::post('/send-email-verification', [JwtAuthController::class, 'sendEmailVerification']);
+
+    Route::post('/send-verify-email', [JwtAuthController::class, 'sendEmailVerification']);
+    Route::post('/resend-verification', [JwtAuthController::class, 'createNewVerificationLink']);
+    Route::post('/verify-email/{verification_token}', [JwtAuthController::class, 'verifyEmail'])->name('verification.verify');
     
 });
 
