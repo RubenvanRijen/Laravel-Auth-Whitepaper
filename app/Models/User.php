@@ -23,7 +23,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      *
      * @var array<int, string>
      */
-     protected $fillable = ['name', 'email', 'password', 'verification_token', 'email_verified'];
+    protected $fillable = ['name', 'email', 'password', 'verification_token', 'email_verified'];
 
 
     /**
@@ -69,5 +69,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmail);
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'roles_users');
+    }
+
+    public function hasRole($roleName)
+    {
+        return $this->roles->contains('name', $roleName);
     }
 }

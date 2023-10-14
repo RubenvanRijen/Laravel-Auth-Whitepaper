@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
@@ -17,13 +16,13 @@ abstract class GenericController extends Controller
     protected $model;
 
     /**
-     * Get a collection of all items in the associated model.
-     *
-     * @return Collection
+     * Return all the data of the associated model
+     *  @return JsonResponse
      */
-    public function index(): Collection
+    public function index(): JsonResponse
     {
-        return $this->model::all();
+        $data = $this->model::paginate(10);
+        return response()->json(['data' => $data], 200);
     }
 
     /**
@@ -35,7 +34,7 @@ abstract class GenericController extends Controller
     public function store(Request $request): JsonResponse
     {
         // Validate the incoming request data using rules defined in getValidationRules method.
-        $validatedData = $request->validate($this->getValidationRules());
+        $validatedData = $request->validate($this->getValidationRulesCreate());
 
         // Create a new model instance with the validated data.
         $item = $this->model::create($validatedData);
@@ -60,7 +59,7 @@ abstract class GenericController extends Controller
         }
 
         // Return a JSON response with the found item.
-        return response()->json($item);
+        return response()->json($item, 200);
     }
 
     /**
@@ -80,7 +79,7 @@ abstract class GenericController extends Controller
         }
 
         // Validate the incoming request data using rules defined in getValidationRules method.
-        $validatedData = $request->validate($this->getValidationRules());
+        $validatedData = $request->validate($this->getValidationRulesUpdate($id));
 
         // Update the item with the validated data.
         $item->update($validatedData);
@@ -90,13 +89,24 @@ abstract class GenericController extends Controller
     }
 
     /**
-     * Get validation rules for the specific model.
+     * Get validation rules for the specific model for create.
      *
      * @return array
      */
-    protected function getValidationRules(): array
+    protected function getValidationRulesCreate(): array
     {
-        // Define the validation rules for the specific model here.
+        // Define the validation rules for the specific model here when creating.
+        return [];
+    }
+
+    /**
+     * Get validation rules for the specific model for updating.
+     *
+     * @return array
+     */
+    protected function getValidationRulesUpdate(mixed $id): array
+    {
+        // Define the validation rules for the specific model here when updating.
         return [];
     }
 

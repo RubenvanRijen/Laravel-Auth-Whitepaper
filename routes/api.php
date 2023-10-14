@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\JwtAuthController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,19 +19,38 @@ use Illuminate\Support\Facades\Route;
 //    return view('welcome');
 //});
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'auth'
-], function ($router) {
-    Route::post('/login', [JwtAuthController::class, 'login']);
-    Route::post('/register', [JwtAuthController::class, 'register']);
-    Route::post('/logout', [JwtAuthController::class, 'logout']);
-    Route::post('/refresh', [JwtAuthController::class, 'refresh']);
-    Route::get('/user-profile', [JwtAuthController::class, 'getCurrentUser']);
+// authentication routes
+Route::prefix('auth')->group(
+    function ($router) {
+        Route::post('/login', [JwtAuthController::class, 'login']);
+        Route::post('/register', [JwtAuthController::class, 'register']);
+        Route::post('/createUser', [JwtAuthController::class, 'createUser'])->middleware(['jwt_full', 'admin']);
 
-    Route::post('/send-verify-email', [JwtAuthController::class, 'sendEmailVerification']);
-    Route::post('/resend-verification', [JwtAuthController::class, 'createNewVerificationLink']);
-    Route::post('/verify-email/{verification_token}', [JwtAuthController::class, 'verifyEmail'])->name('verification.verify');
-    
-});
 
+        Route::post('/logout', [JwtAuthController::class, 'logout'])->middleware('jwt_full');
+        Route::get('/user-profile', [JwtAuthController::class, 'getCurrentUser'])->middleware('jwt_full');
+        Route::post('/refresh', [JwtAuthController::class, 'refresh'])->middleware('jwt_basic');
+
+        Route::post('/send-verify-email', [JwtAuthController::class, 'sendEmailVerification']);
+        Route::post('/resend-verification', [JwtAuthController::class, 'createNewVerificationLink']);
+        // set the where cause otherwise there kept being a problem with the url not being well seen by laravel.
+        // now laravel properly sees the verification_token and the redirect_url and makes it one good route.
+        Route::get('/verify-email/{verification_token}/{redirect_url}', [JwtAuthController::class, 'verifyEmail'])->name('verification.verify.api')->where('redirect_url', '.*');
+    }
+);
+
+
+Route::prefix('roles')->group(
+    function ($router) {
+        // Route to get a list of all roles
+        Route::get('/', [RoleController::class, 'index'])->middleware(['jwt_full', 'admin']);
+        // Route to get a specific role by ID
+        Route::get('/{id}', [RoleController::class, 'show'])->middleware(['jwt_full', 'admin']);
+        // Route to create a new role
+        Route::post('/', [RoleController::class, 'store'])->middleware(['jwt_full', 'admin']);
+        // Route to update an existing role by ID
+        Route::put('/{id}', [RoleController::class, 'update'])->middleware(['jwt_full', 'admin']);
+        // Route to delete an existing role by ID
+        Route::delete('/{id}', [RoleController::class, 'destroy'])->middleware(['jwt_full', 'admin']);
+    }
+);
