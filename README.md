@@ -1,3 +1,70 @@
+# Laravel Authentication Boilerplate
+
+This Laravel 10.10 project serves as a comprehensive boilerplate for implementing authentication and authorization features. Or as a plain authentication API. It provides a solid foundation for user management, including registration, login, email verification, and role-based access control (RBAC).
+
+## Features
+
+- **User Registration:** Allows new users to create an account with essential information. Includes validation for data integrity.
+- **User Login:** Supports authentication using email and password, leveraging JWT (JSON Web Tokens) for secure, stateless authentication.
+- **Email Verification:** Sends users a verification email after registration. Clicking the link verifies their email address.
+- **Role-Based Access Control (RBAC):** Users can be assigned roles (e.g., admin, user) to control access within the application.
+- **Logout:** Authenticated users can securely log out.
+- **Password Reset:** Users can request a password reset link via email if they forget their password.
+- **Profile Management:** Users can view and update their profile information.
+
+## Getting Started
+
+### Prerequisites
+
+- PHP >= 8.1
+- Composer
+- Laravel 10.10
+- Database system (MySQL)
+
+### Installation
+
+1. Clone the repository:
+2. Install dependencies:
+3. Setup environment:
+    - Copy `.env.example` to `.env` and configure environment variables, including database, mail, and JWT settings.
+4. Generate application key:
+5. Run migrations and seeders:
+6. Start the server
+
+Your Laravel authentication boilerplate is now running and can be accessed at `http://localhost:8000`.
+
+### Testing
+
+This project includes a suite of feature tests to ensure the authentication system functions correctly. To run the tests:
+
+```
+php artisan test
+```
+
+## API Endpoints
+
+The boilerplate includes several RESTful API endpoints for authentication:
+
+- `POST /api/auth/register`: Register a new user.
+- `POST /api/auth/login`: Authenticate a user.
+- `POST /api/auth/logout`: Log out the authenticated user.
+- `POST /api/auth/send-verify-email`: Send a verification email to the user.
+- `POST /api/auth/verify-email`: Verify the user's email address.
+- `POST /api/auth/password-reset`: Request a password reset link.
+- `POST /api/auth/reset-password`: Reset the user's password.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit pull requests or open issues to improve the boilerplate.
+
+## License
+
+This project is open-sourced software licensed under the MIT license.
+
+
+## examples
+![Example 1](examples/example-1.png)
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

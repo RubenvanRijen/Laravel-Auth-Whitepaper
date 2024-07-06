@@ -8,8 +8,8 @@ use Illuminate\Routing\Controller as BaseController;
 
 /**
  * @OA\Info(
- *    title="StickerWave-API",
- *    description="Sticker wave Api",
+ *    title="Laravel Authentication Api",
+ *    description="Laravel Authentication Api",
  *    version="1.0.0",
  * ) 
  */

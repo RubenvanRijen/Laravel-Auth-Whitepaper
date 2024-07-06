@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Documentation\RoleControllerDocumentation;
+use Illuminate\Database\Eloquent\Model;
 use App\Models\Role;
 
 class RoleController extends GenericController implements RoleControllerDocumentation
